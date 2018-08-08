@@ -28,11 +28,24 @@ public class Perceptron {
         this.error = error;
     }
     
-//    public Perceptron(ActivationStrategy activationStrategy) {
-//        inputs = new ArrayList<Synapse>();
-//        this.activationStrategy = activationStrategy;
-//        error = 0;
-//    }
+    public Perceptron(ActivationStrategy activationStrategy) {
+        inputs = new ArrayList<Synapse>();
+        this.activationStrategy = activationStrategy;
+        error = 0;
+    }
+    
+    private void calculateWeightedSum() {
+        weightedSum = 0;
+        for(Synapse synapse : inputs) {
+            weightedSum += synapse.getWeight() * synapse.getSourceNeuron().getOutput();
+        }
+    }
+
+    public void activate() {
+        calculateWeightedSum();
+        output = activationStrategy.activate(weightedSum);
+        derivative = activationStrategy.derivative(output);
+    }
 
     public List<Synapse> getInputs() {
         return inputs;
