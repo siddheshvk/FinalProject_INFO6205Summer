@@ -12,16 +12,16 @@ import FinalProject.BaseClasses.Synapse;
 
 
 
-public class Layer implements Serializable {
+public class Layer{
 
 	
-	  private List<Perceptron> percep;
+	  private List<Perceptron> percepList;
 	    private Layer previousLayer;
 	    private Layer nextLayer;
 	    private Perceptron bias;
 
 	    public Layer() {
-	        percep = new ArrayList<Perceptron>();
+	        percepList = new ArrayList<Perceptron>();
 	        previousLayer = null;
 	    }
 
@@ -33,20 +33,20 @@ public class Layer implements Serializable {
 	    public Layer(Layer previousLayer, Perceptron bias) {
 	        this(previousLayer);
 	        this.bias = bias;
-	        percep.add(bias);
+	        percepList.add(bias);
 	    }
 
 	    public List<Perceptron> getNeurons() {
-	        return this.percep;
+	        return this.percepList;
 	    }
 
-	    public void addNeuron(Perceptron neuron) {
+	    public void addNeuron(Perceptron percep) {
 
-	        percep.add(neuron);
+	        percepList.add(percep);
 
 	        if(previousLayer != null) {
 	            for(Perceptron previousLayerNeuron : previousLayer.getNeurons()) {
-	                neuron.addInput(new Synapse(previousLayerNeuron, (Math.random() * 1) - 0.5)); //initialize with a random weight between -1 and 1
+	                percep.addInput(new Synapse(previousLayerNeuron, (Math.random() * 1) - 0.5)); //initialize with a random weight between -1 and 1
 	            }
 	        }
 	    }
@@ -74,10 +74,28 @@ public class Layer implements Serializable {
 	    public boolean hasBias() {
 	        return bias != null;
 	    }
-	    
-	    public void addNeuron(Perceptron neuron, double[] weights) {
 
-	        percep.add(neuron);
+            public List<Perceptron> getPercepList() {
+                return percepList;
+            }
+
+            public void setPercepList(List<Perceptron> percepList) {
+                this.percepList = percepList;
+            }
+
+            public Perceptron getBias() {
+                return bias;
+            }
+
+            public void setBias(Perceptron bias) {
+                this.bias = bias;
+            }
+            
+            
+	    
+	    public void addNeuron(Perceptron percep, double[] weights) {
+
+	        percepList.add(percep);
 
 	        if(previousLayer != null) {
 
@@ -88,7 +106,7 @@ public class Layer implements Serializable {
 	            else {
 	                List<Perceptron> previousLayerNeurons = previousLayer.getNeurons();
 	                for(int i = 0; i < previousLayerNeurons.size(); i++) {
-	                    neuron.addInput(new Synapse(previousLayerNeurons.get(i), weights[i]));
+	                    percep.addInput(new Synapse(previousLayerNeurons.get(i), weights[i]));
 	                }
 	            }
 
@@ -99,8 +117,8 @@ public class Layer implements Serializable {
 
 	        int biasCount = hasBias() ? 1 : 0;
 
-	        for(int i = biasCount; i < percep.size(); i++) {
-	            percep.get(i).activate();
+	        for(int i = biasCount; i < percepList.size(); i++) {
+	            percepList.get(i).activate();
 	        }
 	    }
 

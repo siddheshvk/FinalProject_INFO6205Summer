@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/E:/PSA/PSAFinalProject/FinalProject_INFO6205Summer/FinalProject/src/FinalProject/BaseClasses/Layer.java</file>
+            <file>file:/E:/PSA/PSAFinalProject/FinalProject_INFO6205Summer/FinalProject/src/FinalProject/BaseClasses/ActivationFunction.java</file>
+            <file>file:/E:/PSA/PSAFinalProject/FinalProject_INFO6205Summer/FinalProject/src/FinalProject/BaseClasses/LinearActivation.java</file>
+            <file>file:/E:/PSA/PSAFinalProject/FinalProject_INFO6205Summer/FinalProject/src/FinalProject/BaseClasses/NeuralNetwork.java</file>
             <file>file:/E:/PSA/PSAFinalProject/FinalProject_INFO6205Summer/FinalProject/src/FinalProject/BaseClasses/Perceptron.java</file>
+            <file>file:/E:/PSA/PSAFinalProject/FinalProject_INFO6205Summer/FinalProject/src/FinalProject/Training/BackPropogation.java</file>
+            <file>file:/E:/PSA/PSAFinalProject/FinalProject_INFO6205Summer/FinalProject/src/FinalProject/BaseClasses/SigmoidActivation.java</file>
             <file>file:/E:/PSA/PSAFinalProject/FinalProject_INFO6205Summer/FinalProject/src/FinalProject/BaseClasses/Synapse.java</file>
         </group>
     </open-files>

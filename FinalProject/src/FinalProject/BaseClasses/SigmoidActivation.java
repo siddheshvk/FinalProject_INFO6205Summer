@@ -9,7 +9,7 @@ package FinalProject.BaseClasses;
  *
  * @author Siddhesh
  */
-public class SigmoidActivation {
+public class SigmoidActivation implements ActivationFunction{
     
     public double activate(double weightedSum) {
         return 1.0 / (1 + Math.exp(-1.0 * weightedSum));
