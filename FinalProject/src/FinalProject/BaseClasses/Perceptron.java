@@ -5,6 +5,7 @@
  */
 package FinalProject.BaseClasses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
 public class Perceptron {
     
     private List<Synapse> inputs;
-//    private ActivationStrategy activationStrategy;
+    private ActivationFunction actFunc;
     private double output;
     private double derivative;
     private double weightedSum;
@@ -28,25 +29,46 @@ public class Perceptron {
         this.error = error;
     }
     
-    public Perceptron(ActivationStrategy activationStrategy) {
+    public Perceptron(ActivationFunction actFunc) {
+//    public Perceptron() {
         inputs = new ArrayList<Synapse>();
-        this.activationStrategy = activationStrategy;
+        this.actFunc = actFunc;
+//        actFunc  = new SigmoidActivation();
         error = 0;
     }
     
     private void calculateWeightedSum() {
         weightedSum = 0;
         for(Synapse synapse : inputs) {
-            weightedSum += synapse.getWeight() * synapse.getSourceNeuron().getOutput();
+            weightedSum += synapse.getWeight() * synapse.getSourcePercep().getOutput();
         }
     }
 
     public void activate() {
         calculateWeightedSum();
-        output = activationStrategy.activate(weightedSum);
-        derivative = activationStrategy.derivative(output);
+        output = actFunc.activate(weightedSum);
+        derivative = actFunc.derivative(output);
     }
+    
+    public ActivationFunction getActivation(){
+        return actFunc;
+    }
+    
+    public double[] getWeights() {
+        double[] weights = new double[inputs.size()];
 
+        int i = 0;
+        for(Synapse synapse : inputs) {
+            weights[i] = synapse.getWeight();
+            i++;
+        }
+
+        return weights;
+    }
+    
+    public void addInput(Synapse input){
+        inputs.add(input);
+    }
     public List<Synapse> getInputs() {
         return inputs;
     }

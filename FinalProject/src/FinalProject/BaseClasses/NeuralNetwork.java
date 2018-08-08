@@ -50,7 +50,8 @@ public class NeuralNetwork implements Serializable {
 
             if(layer.hasBias()) {
                 Perceptron bias = layer.getNeurons().get(0);
-                Perceptron biasCopy = new Perceptron(bias.getActivationStrategy().copy());
+                Perceptron biasCopy = new Perceptron(bias.getActivation().copy());
+//                Perceptron biasCopy = new Perceptron();
                 biasCopy.setOutput(bias.getOutput());
                 layerCopy = new Layer(null, biasCopy);
             }
@@ -66,7 +67,8 @@ public class NeuralNetwork implements Serializable {
             for(int i = biasCount; i < layer.getNeurons().size(); i++) {
             	Perceptron neuron = layer.getNeurons().get(i);
 
-            	Perceptron neuronCopy = new Perceptron(neuron.getActivationStrategy().copy());
+            	Perceptron neuronCopy = new Perceptron(neuron.getActivation().copy());
+//                Perceptron neuronCopy = new Perceptron();
                 neuronCopy.setOutput(neuron.getOutput());
                 neuronCopy.setError(neuron.getError());
 
@@ -133,13 +135,13 @@ public class NeuralNetwork implements Serializable {
             int biasCount = input.hasBias() ? 1 : 0;
 
             if(input.getNeurons().size() - biasCount != inputs.length) {
-                throw new IllegalArgumentException("The number of inputs must equal the number of neurons in the input layer");
+                throw new IllegalArgumentException("The number of inputs must equal the number of perceptron in the input layer");
             }
 
             else {
-                List<Perceptron> neurons = input.getNeurons();
-                for(int i = biasCount; i < neurons.size(); i++) {
-                    neurons.get(i).setOutput(inputs[i - biasCount]);
+                List<Perceptron> percep = input.getNeurons();
+                for(int i = biasCount; i < percep.size(); i++) {
+                    percep.get(i).setOutput(inputs[i - biasCount]);
                 }
             }
         }

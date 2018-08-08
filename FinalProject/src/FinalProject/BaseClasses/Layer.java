@@ -9,19 +9,19 @@ import java.util.List;
 import FinalProject.BaseClasses.Layer;
 import FinalProject.BaseClasses.Perceptron;
 import FinalProject.BaseClasses.Synapse;
-import net.vivin.neural.Neuron;
+
 
 
 public class Layer implements Serializable {
 
 	
-	  private List<Perceptron> neurons;
+	  private List<Perceptron> percep;
 	    private Layer previousLayer;
 	    private Layer nextLayer;
 	    private Perceptron bias;
 
 	    public Layer() {
-	        neurons = new ArrayList<Perceptron>();
+	        percep = new ArrayList<Perceptron>();
 	        previousLayer = null;
 	    }
 
@@ -33,16 +33,16 @@ public class Layer implements Serializable {
 	    public Layer(Layer previousLayer, Perceptron bias) {
 	        this(previousLayer);
 	        this.bias = bias;
-	        neurons.add(bias);
+	        percep.add(bias);
 	    }
 
 	    public List<Perceptron> getNeurons() {
-	        return this.neurons;
+	        return this.percep;
 	    }
 
 	    public void addNeuron(Perceptron neuron) {
 
-	        neurons.add(neuron);
+	        percep.add(neuron);
 
 	        if(previousLayer != null) {
 	            for(Perceptron previousLayerNeuron : previousLayer.getNeurons()) {
@@ -77,12 +77,12 @@ public class Layer implements Serializable {
 	    
 	    public void addNeuron(Perceptron neuron, double[] weights) {
 
-	        neurons.add(neuron);
+	        percep.add(neuron);
 
 	        if(previousLayer != null) {
 
 	            if(previousLayer.getNeurons().size() != weights.length) {
-	                throw new IllegalArgumentException("The number of weights supplied must be equal to the number of neurons in the previous layer");
+	                throw new IllegalArgumentException("The number of weights supplied must be equal to the number of percep in the previous layer");
 	            }
 
 	            else {
@@ -99,8 +99,8 @@ public class Layer implements Serializable {
 
 	        int biasCount = hasBias() ? 1 : 0;
 
-	        for(int i = biasCount; i < neurons.size(); i++) {
-	            neurons.get(i).activate();
+	        for(int i = biasCount; i < percep.size(); i++) {
+	            percep.get(i).activate();
 	        }
 	    }
 
