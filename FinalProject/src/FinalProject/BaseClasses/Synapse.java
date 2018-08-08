@@ -11,4 +11,32 @@ package FinalProject.BaseClasses;
  */
 public class Synapse {
     
+    private Perceptron sourcePercep;
+    private double weight;
+
+    public Synapse(Perceptron sourcePercep, double weight) {
+        this.sourcePercep = sourcePercep;
+        this.weight = weight;
+    }
+
+    public Perceptron getSourcePercep() {
+        return sourcePercep;
+    }
+
+    public void setSourcePercep(Perceptron sourcePercep) {
+        this.sourcePercep = sourcePercep;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+    
+    
+    
+    
+    
 }
