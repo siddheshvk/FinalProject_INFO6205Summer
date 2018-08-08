@@ -14,6 +14,7 @@ import FinalProject.BaseClasses.NeuralNetwork;
 import FinalProject.BaseClasses.Perceptron;
 import FinalProject.BaseClasses.Synapse;
 
+
 /**
 *
 * @author sneha
@@ -125,6 +126,51 @@ public class NeuralNetwork implements Serializable {
         }
 
         return allWeights;
+    }
+    public void setInputs(double[] inputs) {
+        if(input != null) {
+
+            int biasCount = input.hasBias() ? 1 : 0;
+
+            if(input.getNeurons().size() - biasCount != inputs.length) {
+                throw new IllegalArgumentException("The number of inputs must equal the number of neurons in the input layer");
+            }
+
+            else {
+                List<Perceptron> neurons = input.getNeurons();
+                for(int i = biasCount; i < neurons.size(); i++) {
+                    neurons.get(i).setOutput(inputs[i - biasCount]);
+                }
+            }
+        }
+    }
+    
+    public double[] getOutput() {
+
+        double[] outputs = new double[output.getNeurons().size()];
+
+        for(int i = 1; i < layers.size(); i++) {
+            Layer layer = layers.get(i);
+            layer.feedForward();
+        }
+
+        int i = 0;
+        for(Perceptron neuron : output.getNeurons()) {
+            outputs[i] = neuron.getOutput();
+            i++;
+        }
+
+        return outputs;
+    }
+    
+    public void reset() {
+        for(Layer layer : layers) {
+            for(Perceptron neuron : layer.getNeurons()) {
+                for(Synapse synapse : neuron.getInputs()) {
+                    synapse.setWeight((Math.random() * 1) - 0.5);
+                }
+            }
+        }
     }
 
 }
