@@ -9,6 +9,7 @@ import java.util.List;
 import FinalProject.BaseClasses.Layer;
 import FinalProject.BaseClasses.Perceptron;
 import FinalProject.BaseClasses.Synapse;
+import net.vivin.neural.Neuron;
 
 
 public class Layer implements Serializable {
@@ -73,6 +74,36 @@ public class Layer implements Serializable {
 	    public boolean hasBias() {
 	        return bias != null;
 	    }
+	    
+	    public void addNeuron(Perceptron neuron, double[] weights) {
+
+	        neurons.add(neuron);
+
+	        if(previousLayer != null) {
+
+	            if(previousLayer.getNeurons().size() != weights.length) {
+	                throw new IllegalArgumentException("The number of weights supplied must be equal to the number of neurons in the previous layer");
+	            }
+
+	            else {
+	                List<Perceptron> previousLayerNeurons = previousLayer.getNeurons();
+	                for(int i = 0; i < previousLayerNeurons.size(); i++) {
+	                    neuron.addInput(new Synapse(previousLayerNeurons.get(i), weights[i]));
+	                }
+	            }
+
+	        }
+	    }
+	    
+	    public void feedForward() {
+
+	        int biasCount = hasBias() ? 1 : 0;
+
+	        for(int i = biasCount; i < neurons.size(); i++) {
+	            neurons.get(i).activate();
+	        }
+	    }
+
 	
 	
 	
