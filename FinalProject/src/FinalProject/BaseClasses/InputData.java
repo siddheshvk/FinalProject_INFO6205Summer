@@ -14,6 +14,9 @@ public class InputData {
     double[][] inputs;
     double[][] output;
 
+    public InputData() {
+    }
+
     public InputData(double[][] inputs, double[][] output) {
         this.inputs = inputs;
         this.output = output;

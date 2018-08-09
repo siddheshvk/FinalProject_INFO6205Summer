@@ -5,10 +5,14 @@
  */
 package FinalProject;
 
+import FinalProject.BaseClasses.ActivationFunction;
+import FinalProject.BaseClasses.InputData;
 import FinalProject.BaseClasses.Layer;
+import FinalProject.BaseClasses.LinearActivation;
 import FinalProject.BaseClasses.NeuralNetwork;
 import FinalProject.BaseClasses.Perceptron;
 import FinalProject.BaseClasses.SigmoidActivation;
+import FinalProject.Training.Train;
 
 /**
  *
@@ -21,79 +25,57 @@ public class PSAFinalProject {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        CSVReader fileReader = new CSVReader();
         
-//        String filename=""
-                
-//             CSVReader csvread = new CSVReader();
-//             
-//             double[][] file  = csvread.readFile(1);
-    NeuralNetwork andNeuralNetwork = createAndNeuralNetwork();
-        NeuralNetwork orNeuralNetwork = createOrNeuralNetwork();
-        NeuralNetwork xorNeuralNetwork = createXorNeuralNetwork();
+        InputData inputData = new InputData();
+        inputData = fileReader.readFile("train2");
+        System.out.println("Training file read.");
+        
+        System.out.println("Creating neural network.....");
+        NeuralNetwork digitNetwork = digitImageNetwork(inputData);
+        
+        
+        Train networkTrainer  = new Train(digitNetwork);
+        System.out.println("Training neural network....");
+        networkTrainer.training(inputData.getInputs(),inputData.getOutput());
+        System.out.println("Network trained");
+        
+        System.out.println("Reading test data file");
+        InputData inputData2 = new InputData();
+        inputData2 = fileReader.readFile("test");
+        System.out.println("Test file read.");
+        System.out.println("Running test data now....");
+        
+        int correct=0;
+        for(int i=0;i<inputData2.getInputs().length;i++){
+            double[] input = inputData2.getInputs()[i];
+            int actualOutput = (int)inputData2.getOutput()[i][0];
+            
+            digitNetwork.setInputs(input);
+            double[] receivedOutput = digitNetwork.getOutput();
 
-        System.out.println("Testing AND neural network");
+            double max = receivedOutput[0];
+            double recognizedDigit = 0;
+            for(int j = 0; j < receivedOutput.length; j++) {
+                if(receivedOutput[j] > max) {
+                    max = receivedOutput[j];
+                    recognizedDigit = j;
+                }
+            }
 
-        andNeuralNetwork.setInputs(new double[]{0, 0});
-        System.out.println("0 AND 0: " + andNeuralNetwork.getOutput()[0]);
-
-        andNeuralNetwork.setInputs(new double[]{0, 1});
-        System.out.println("0 AND 1: " + andNeuralNetwork.getOutput()[0]);
-
-        andNeuralNetwork.setInputs(new double[]{1, 0});
-        System.out.println("1 AND 0: " + andNeuralNetwork.getOutput()[0]);
-
-        andNeuralNetwork.setInputs(new double[]{1, 1});
-        System.out.println("1 AND 1: " + andNeuralNetwork.getOutput()[0] + "\n");
-
-
-        System.out.println("Testing OR neural network");
-
-        orNeuralNetwork.setInputs(new double[]{0, 0});
-        System.out.println("0 OR 0: " + orNeuralNetwork.getOutput()[0]);
-
-        orNeuralNetwork.setInputs(new double[]{0, 1});
-        System.out.println("0 OR 1: " + orNeuralNetwork.getOutput()[0]);
-
-        orNeuralNetwork.setInputs(new double[]{1, 0});
-        System.out.println("1 OR 0: " + orNeuralNetwork.getOutput()[0]);
-
-        orNeuralNetwork.setInputs(new double[]{1, 1});
-        System.out.println("1 OR 1: " + orNeuralNetwork.getOutput()[0] + "\n");
-
-
-        System.out.println("Testing XOR neural network");
-
-        xorNeuralNetwork.setInputs(new double[]{0, 0});
-        System.out.println("0 XOR 0: " + xorNeuralNetwork.getOutput()[0]);
-
-        xorNeuralNetwork.setInputs(new double[]{0, 1});
-        System.out.println("0 XOR 1: " + xorNeuralNetwork.getOutput()[0]);
-
-        xorNeuralNetwork.setInputs(new double[]{1, 0});
-        System.out.println("1 XOR 0: " + xorNeuralNetwork.getOutput()[0]);
-
-        xorNeuralNetwork.setInputs(new double[]{1, 1});
-        System.out.println("1 XOR 1: " + xorNeuralNetwork.getOutput()[0] + "\n");
-
-//        NeuralNetwork untrained = createUntrainedXorNeuralNetwork();
-//        TrainingDataGenerator xorTrainingDataGenerator = new XorTrainingDataGenerator();
-//
-//        BackPropagation backpropagator = new BackPropagation(untrained, 0.1, 0.9, 0);
-//        backpropagator.train(xorTrainingDataGenerator, 0.0001);
-//
-//        System.out.println("Testing trained XOR neural network");
-//
-//        untrained.setInputs(new double[]{0, 0});
-//        System.out.println("0 XOR 0: " + (untrained.getOutput()[0]));
-//
-//        untrained.setInputs(new double[]{0, 1});
-//        System.out.println("0 XOR 1: " + (untrained.getOutput()[0]));
-//
-//        untrained.setInputs(new double[]{1, 0});
-//        System.out.println("1 XOR 0: " + (untrained.getOutput()[0]));
-//
-//        untrained.setInputs(new double[]{1, 1});
-//        System.out.println("1 XOR 1: " + (untrained.getOutput()[0]) + "\n");
+            System.out.println("Recognized " + actualOutput + " as " + recognizedDigit + ". Corresponding output value was " + max);
+            
+            if(actualOutput == (int)recognizedDigit){
+                correct++;
+            }
+        
+        }
+        
+        double acc = correct/inputData2.getInputs().length;
+        System.out.println("Total test cases : " + inputData2.getInputs().length);
+        System.out.println("Total correct recognition : " + correct);
+        System.out.println("Accuracy percentage : " + acc+"%");
+    
                 
     }
     
@@ -212,6 +194,48 @@ public class PSAFinalProject {
         return xorNeuralNetwork;
     }
     
-//    private static NeuralNetwork
+    private static NeuralNetwork digitImageNetwork(InputData ipData){
+        
+        NeuralNetwork neuralNetwork = new NeuralNetwork("MNIST Neural Network");
+        
+        Perceptron inputBias = new Perceptron(new LinearActivation());
+        inputBias.setOutput(1);
+        
+        Layer inputLayer = new Layer(null, inputBias);
+        
+        for(int i = 0; i < ipData.getInputs()[0].length; i++) {
+            Perceptron percep = new Perceptron(new SigmoidActivation());
+            percep.setOutput(0);
+            inputLayer.addPerceptron(percep);
+        }
+        
+        Perceptron hiddenBias = new Perceptron(new LinearActivation());
+        hiddenBias.setOutput(1);
+
+        Layer hiddenLayer = new Layer(inputLayer, hiddenBias);
+        
+        long hiddenPercepNumber = Math.round((2.0 / 3.0) * (ipData.getInputs()[0].length) + 10);
+        
+        for(int i = 0; i < hiddenPercepNumber; i++) {
+            Perceptron percep = new Perceptron(new SigmoidActivation());
+            percep.setOutput(0);
+            hiddenLayer.addPerceptron(percep);
+        }
+        
+        Layer outputLayer = new Layer(hiddenLayer);
+
+        //10 output neurons - 1 for each digit
+        for(int i = 0; i < 10; i++) {
+            Perceptron precep = new Perceptron(new SigmoidActivation());
+            precep.setOutput(0);
+            outputLayer.addPerceptron(precep);
+        }
+
+        neuralNetwork.addLayer(inputLayer);
+        neuralNetwork.addLayer(hiddenLayer);
+        neuralNetwork.addLayer(outputLayer);
+        
+        return neuralNetwork;
+    }
     
 }

@@ -20,29 +20,39 @@ import FinalProject.BaseClasses.InputData;
 public class CSVReader {
     
     
-    String csvFile = "/Users/MACBOOK/Downloads";
+//    String csvFile = "E:\\PSA\\PSAFinalProject\\FinalProject_INFO6205Summer\\FinalProject\\src\\FinalProject\\"train.csv";
+    
+//    String csvTestFile = "E:\\PSA\\PSAFinalProject\\FinalProject_INFO6205Summer\\FinalProject\\src\\FinalProject\\train.csv";
+    
+    
     String line = "";
     String cvsSplitBy = ",";
     
-    public InputData readFile(String filename){
+    public InputData readFile(String type){
     	InputData inputdata = new InputData(null,null);
     	//List<String[]> lines = new ArrayList<String[]>();
-    	double [][] first = new double[42000][785];
+        String csvFile = "E:\\PSA\\PSAFinalProject\\FinalProject_INFO6205Summer\\FinalProject\\src\\FinalProject\\"+type+".csv";
+    	int rowSize=2000;
+        if(type.equalsIgnoreCase("test"))
+            rowSize=101;
+        double [][] first = new double[rowSize][785];
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
          	String line = br.readLine();
+                 int count = 0;
             while ((line = br.readLine()) != null) {
 
-                // use comma as separator
-            //    String[] country = line.split(cvsSplitBy);
-
              //   System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
-            	 String [] a =line.split(",");
+            	 
             	 //System.out.println("length is "+a]);
-            	 int count = 0;
+//            	if(count >= start){
+                    String [] a =line.split(",");
             	 for(int i=0;i<a.length;i++) {
             		 first[count][i]=Double.parseDouble(a[i]);
             	 }
-            	 count++;
+            	
+//                }
+
+                 count++;
 
             }
             
@@ -50,8 +60,8 @@ public class CSVReader {
            // lines.toArray(array);
             
             
-            double[][] b = new double[42000][785];
-            double [][] c = new double[42000][785];
+            double[][] b = new double[rowSize][1];
+            double [][] c = new double[rowSize][785];
           
             for(int i=0;i<first.length;i++) {
             		b[i][0]= first[i][0];
@@ -69,6 +79,7 @@ public class CSVReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+//        return null;
+return inputdata;
     }
 }

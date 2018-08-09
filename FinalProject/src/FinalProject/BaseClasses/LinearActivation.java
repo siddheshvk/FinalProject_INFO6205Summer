@@ -9,7 +9,7 @@ package FinalProject.BaseClasses;
  *
  * @author Siddhesh
  */
-public class LinearActivation {
+public class LinearActivation implements ActivationFunction {
     
     public double activate(double weightedSum) {
         return weightedSum;

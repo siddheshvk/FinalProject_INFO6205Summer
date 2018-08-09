@@ -57,7 +57,7 @@ public class BackPropogation {
                     if (layer.isOutputLayer()) {
                         //the order of output and expected determines the sign of the delta. if we have output - expected, we subtract the delta
                         //if we have expected - output we add the delta.
-                        percepError = percep.getDerivative() * (output[k] - expectedOutput[k]);
+                        percepError = percep.getDerivative() * (output[k] - expectedOutput[0]);
                     } else {
                         percepError = percep.getDerivative();
 
@@ -118,7 +118,7 @@ public class BackPropogation {
     
         double sum = 0;
 
-        for (int i = 0; i < expOutput.length; i++) {
+        for (int i = 0; i < expOutput.length -1; i++) {
             sum += Math.pow(expOutput[i] - output[i], 2);
         }
 
