@@ -34,7 +34,7 @@ public class BackPropogation {
     
        
     
-    public double backPropogate(double[][] inputs, double[][] expectedOutputs){
+    public double backPropogate(double[][] inputs, double[][]expectedOutputs){
         
          double error =0;
         for(int i=0; i<inputs.length;i++){
@@ -89,7 +89,7 @@ public class BackPropogation {
             for(int j = layers.size() - 1; j > 0; j--) {
                 Layer layer = layers.get(j);
 
-                for(Perceptron percep : layer.getNeurons()) {
+                for(Perceptron percep : layer.getPerceptrons()) {
 
                     for(Synapse synapse : percep.getInputs()) {
 

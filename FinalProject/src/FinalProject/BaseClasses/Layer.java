@@ -36,16 +36,12 @@ public class Layer{
 	        perceptrons.add(bias);
 	    }
 
-	    public List<Perceptron> getNeurons() {
-	        return this.perceptrons;
-	    }
-
-	    public void addNeuron(Perceptron percep) {
+            public void addPerceptron(Perceptron percep) {
 
 	        perceptrons.add(percep);
 
 	        if(previousLayer != null) {
-	            for(Perceptron previousLayerNeuron : previousLayer.getNeurons()) {
+	            for(Perceptron previousLayerNeuron : previousLayer.getPerceptrons()) {
 	                percep.addInput(new Synapse(previousLayerNeuron, (Math.random() * 1) - 0.5)); //initialize with a random weight between -1 and 1
 	            }
 	        }
@@ -99,12 +95,12 @@ public class Layer{
 
 	        if(previousLayer != null) {
 
-	            if(previousLayer.getNeurons().size() != weights.length) {
+	            if(previousLayer.getPerceptrons().size() != weights.length) {
 	                throw new IllegalArgumentException("The number of weights supplied must be equal to the number of percep in the previous layer");
 	            }
 
 	            else {
-	                List<Perceptron> previousLayerNeurons = previousLayer.getNeurons();
+	                List<Perceptron> previousLayerNeurons = previousLayer.getPerceptrons();
 	                for(int i = 0; i < previousLayerNeurons.size(); i++) {
 	                    percep.addInput(new Synapse(previousLayerNeurons.get(i), weights[i]));
 	                }
