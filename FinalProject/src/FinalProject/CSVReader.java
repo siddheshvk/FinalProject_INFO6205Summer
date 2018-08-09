@@ -61,6 +61,10 @@ public class CSVReader {
         		c[i][j]= first[i][j];
         		
         }
+            for(int i=0;i<c.length;i++){
+                c[i] = otsu(c[i]);
+            }
+            
            inputdata.setOutput(b);
            inputdata.setInputs(c);
             return inputdata;
@@ -70,5 +74,70 @@ public class CSVReader {
         }
 //        return null;
 return inputdata;
+    }
+    
+    private double[] otsu(double[] data) {
+        int[] histogram = new int[256];
+
+        for(double datum : data) {
+            histogram[(int) datum]++;
+        }
+
+        double sum = 0;
+        for(int i = 0; i < histogram.length; i++) {
+            sum += i * histogram[i];
+        }
+
+        double sumB = 0;
+        int wB = 0;
+        int wF = 0;
+
+        double maxVariance = 0;
+        int threshold = 0;
+
+        int i = 0;
+        boolean found = false;
+
+        while(i < histogram.length && !found) {
+            wB += histogram[i];
+
+            if(wB != 0) {
+                wF = data.length - wB;
+
+                if(wF != 0) {
+                    sumB += (i * histogram[i]);
+
+                    double mB = sumB / wB;
+                    double mF = (sum - sumB) / wF;
+
+                    double varianceBetween = wB * Math.pow((mB - mF), 2);
+
+                    if(varianceBetween > maxVariance) {
+                        maxVariance = varianceBetween;
+                        threshold = i;
+                    }
+                }
+
+                else {
+                    found = true;
+                }
+            }
+
+            i++;
+        }
+
+/*        System.out.println(label + ": threshold is " + threshold);
+        for(i = 0; i < data.length; i++) {
+            if(i % 28 == 0) {
+                System.out.println("<br />");
+            }
+            System.out.print("<span style='color:rgb(" + (int) (255 - data[i]) + ", " + (int) (255 - data[i]) + ", " + (int) (255 - data[i]) + ")'>&#9608;</span>");
+        } */
+
+        for(i = 0; i < data.length; i++) {
+            data[i] = data[i] <= threshold ? 0 : 1;
+        }
+        
+        return data;
     }
 }

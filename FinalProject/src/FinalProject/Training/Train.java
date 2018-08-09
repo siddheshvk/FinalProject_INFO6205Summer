@@ -27,9 +27,9 @@ public class Train {
         
         double error;
         
-//        for(int i=0;i<500;i++){
+        for(int i=0;i<3;i++){
             error = backProp.backPropogate(input, output);
-//        }
+        }
     }
     
 }
