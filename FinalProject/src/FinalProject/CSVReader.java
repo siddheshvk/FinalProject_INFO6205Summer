@@ -32,7 +32,7 @@ public class CSVReader {
     	InputData inputdata = new InputData(null,null);
     	//List<String[]> lines = new ArrayList<String[]>();
         String csvFile = "E:\\PSA\\PSAFinalProject\\FinalProject_INFO6205Summer\\FinalProject\\src\\FinalProject\\"+type+".csv";
-    	int rowSize=2000;
+    	int rowSize=10001;
         if(type.equalsIgnoreCase("test"))
             rowSize=101;
         double [][] first = new double[rowSize][785];
@@ -41,25 +41,14 @@ public class CSVReader {
                  int count = 0;
             while ((line = br.readLine()) != null) {
 
-             //   System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
-            	 
-            	 //System.out.println("length is "+a]);
-//            	if(count >= start){
                     String [] a =line.split(",");
             	 for(int i=0;i<a.length;i++) {
             		 first[count][i]=Double.parseDouble(a[i]);
             	 }
-            	
-//                }
-
                  count++;
 
             }
-            
-           // double[][] array = new double[lines.size()][0];
-           // lines.toArray(array);
-            
-            
+
             double[][] b = new double[rowSize][1];
             double [][] c = new double[rowSize][785];
           

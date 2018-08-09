@@ -71,7 +71,8 @@ public class PSAFinalProject {
         
         }
         
-        double acc = correct/inputData2.getInputs().length;
+        double acc = (double)((double)correct/(double)101);
+        acc = acc * 100.0;
         System.out.println("Total test cases : " + inputData2.getInputs().length);
         System.out.println("Total correct recognition : " + correct);
         System.out.println("Accuracy percentage : " + acc+"%");
@@ -227,6 +228,7 @@ public class PSAFinalProject {
         //10 output neurons - 1 for each digit
         for(int i = 0; i < 10; i++) {
             Perceptron precep = new Perceptron(new SigmoidActivation());
+//            Perceptron precep = new Perceptron(new LinearActivation());
             precep.setOutput(0);
             outputLayer.addPerceptron(precep);
         }

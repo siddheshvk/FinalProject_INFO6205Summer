@@ -9,7 +9,10 @@ import FinalProject.BaseClasses.Layer;
 import FinalProject.BaseClasses.NeuralNetwork;
 import FinalProject.BaseClasses.Perceptron;
 import FinalProject.BaseClasses.Synapse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  *
@@ -18,8 +21,8 @@ import java.util.List;
 public class BackPropogation {
     
     private NeuralNetwork neuralNetwork;
-    private double learningRate=0.4;
-    private double momentum;
+    private double learningRate=0.3;
+    private double momentum=0.9;
     private double characteristicTime;
     private double currentEpoch;
 
@@ -37,10 +40,19 @@ public class BackPropogation {
     public double backPropogate(double[][] inputs, double[][]expectedOutputs){
         
          double error =0;
+         Random generator = new Random();
+         Map<Synapse, Double> synapseNeuronDeltaMap = new HashMap<Synapse, Double>();
         for(int i=0; i<inputs.length;i++){
             
             double[] input = inputs[i];
-            double[] expectedOutput = expectedOutputs[i];
+//            double[] expectedOutput = expectedOutputs[i];
+            double[] expectedOutput = new double[10];
+            
+            for(int m=0;m<expectedOutput.length;m++){
+                expectedOutput[m] = generator.nextDouble();
+            }
+            
+            expectedOutput[(int)(expectedOutputs[i][0])] = 1.0;
             
             List<Layer> layers = neuralNetwork.getLayers();
 
@@ -57,7 +69,7 @@ public class BackPropogation {
                     if (layer.isOutputLayer()) {
                         //the order of output and expected determines the sign of the delta. if we have output - expected, we subtract the delta
                         //if we have expected - output we add the delta.
-                        percepError = percep.getDerivative() * (output[k] - expectedOutput[0]);
+                        percepError = percep.getDerivative() * (output[k] - expectedOutput[k]);
                     } else {
                         percepError = percep.getDerivative();
 
@@ -92,14 +104,14 @@ public class BackPropogation {
                 for(Perceptron percep : layer.getPerceptrons()) {
 
                     for(Synapse synapse : percep.getInputs()) {
-
+//                        double newLearningRate = characteristicTime > 0 ? learningRate / (1 + (currentEpoch / characteristicTime)) : learningRate;
                         double delta = learningRate * percep.getError() * synapse.getSourcePercep().getOutput();
 
 //                        if(synapseNeuronDeltaMap.get(synapse) != null) {
 //                            double previousDelta = synapseNeuronDeltaMap.get(synapse);
 //                            delta += momentum * previousDelta;
 //                        }
-
+//
 //                        synapseNeuronDeltaMap.put(synapse, delta);
                         synapse.setWeight(synapse.getWeight() - delta);
                     }
