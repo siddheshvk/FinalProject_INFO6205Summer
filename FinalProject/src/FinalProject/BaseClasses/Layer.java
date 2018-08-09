@@ -15,13 +15,13 @@ import FinalProject.BaseClasses.Synapse;
 public class Layer{
 
 	
-	  private List<Perceptron> percepList;
+	  private List<Perceptron> perceptrons;
 	    private Layer previousLayer;
 	    private Layer nextLayer;
 	    private Perceptron bias;
 
 	    public Layer() {
-	        percepList = new ArrayList<Perceptron>();
+	        perceptrons = new ArrayList<Perceptron>();
 	        previousLayer = null;
 	    }
 
@@ -33,16 +33,16 @@ public class Layer{
 	    public Layer(Layer previousLayer, Perceptron bias) {
 	        this(previousLayer);
 	        this.bias = bias;
-	        percepList.add(bias);
+	        perceptrons.add(bias);
 	    }
 
 	    public List<Perceptron> getNeurons() {
-	        return this.percepList;
+	        return this.perceptrons;
 	    }
 
 	    public void addNeuron(Perceptron percep) {
 
-	        percepList.add(percep);
+	        perceptrons.add(percep);
 
 	        if(previousLayer != null) {
 	            for(Perceptron previousLayerNeuron : previousLayer.getNeurons()) {
@@ -75,12 +75,12 @@ public class Layer{
 	        return bias != null;
 	    }
 
-            public List<Perceptron> getPercepList() {
-                return percepList;
+            public List<Perceptron> getPerceptrons() {
+                return perceptrons;
             }
 
-            public void setPercepList(List<Perceptron> percepList) {
-                this.percepList = percepList;
+            public void setPerceptrons(List<Perceptron> perceptrons) {
+                this.perceptrons = perceptrons;
             }
 
             public Perceptron getBias() {
@@ -95,7 +95,7 @@ public class Layer{
 	    
 	    public void addNeuron(Perceptron percep, double[] weights) {
 
-	        percepList.add(percep);
+	        perceptrons.add(percep);
 
 	        if(previousLayer != null) {
 
@@ -117,8 +117,8 @@ public class Layer{
 
 	        int biasCount = hasBias() ? 1 : 0;
 
-	        for(int i = biasCount; i < percepList.size(); i++) {
-	            percepList.get(i).activate();
+	        for(int i = biasCount; i < perceptrons.size(); i++) {
+	            perceptrons.get(i).activate();
 	        }
 	    }
 

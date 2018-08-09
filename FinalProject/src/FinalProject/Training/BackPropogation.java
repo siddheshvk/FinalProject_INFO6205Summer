@@ -18,14 +18,25 @@ import java.util.List;
 public class BackPropogation {
     
     private NeuralNetwork neuralNetwork;
-    private double learningRate;
+    private double learningRate=0.4;
     private double momentum;
     private double characteristicTime;
     private double currentEpoch;
+
+    public BackPropogation(NeuralNetwork neuralNetwork, double learningRate) {
+        this.neuralNetwork = neuralNetwork;
+        this.learningRate = learningRate;
+    }
+
+    public BackPropogation(NeuralNetwork neuralNetwork) {
+        this.neuralNetwork = neuralNetwork;
+    }
     
-    public double backtrain(double[][] inputs, double[][] expectedOutputs){
+       
+    
+    public double backPropogate(double[][] inputs, double[][] expectedOutputs){
         
-        
+         double error =0;
         for(int i=0; i<inputs.length;i++){
             
             double[] input = inputs[i];
@@ -39,7 +50,7 @@ public class BackPropogation {
             for (int j = layers.size() - 1; j > 0; j--) {
                 Layer layer = layers.get(j);
 
-                for (int k = 0; k < layer.getPercepList().size(); k++) {
+                for (int k = 0; k < layer.getPerceptrons().size(); k++) {
                     Perceptron percep = layer.getPerceptrons().get(k);
                     double percepError = 0;
 
@@ -51,7 +62,7 @@ public class BackPropogation {
                         percepError = percep.getDerivative();
 
                         double sum = 0;
-                        List<Perceptron> downstreamPerceptrons = layer.getNextLayer().getPercepList();
+                        List<Perceptron> downstreamPerceptrons = layer.getNextLayer().getPerceptrons();
                         for (Perceptron downstreamPerceptron : downstreamPerceptrons) {
 
                             int l = 0;
@@ -82,8 +93,7 @@ public class BackPropogation {
 
                     for(Synapse synapse : percep.getInputs()) {
 
-                        double newLearningRate = characteristicTime > 0 ? learningRate / (1 + (currentEpoch / characteristicTime)) : learningRate;
-                        double delta = newLearningRate * percep.getError() * synapse.getSourcePercep().getOutput();
+                        double delta = learningRate * percep.getError() * synapse.getSourcePercep().getOutput();
 
 //                        if(synapseNeuronDeltaMap.get(synapse) != null) {
 //                            double previousDelta = synapseNeuronDeltaMap.get(synapse);
@@ -103,6 +113,21 @@ public class BackPropogation {
         return error;
         }
         
-    }
     
+    private double error(double[] output, double[] expOutput){
+    
+        double sum = 0;
+
+        for (int i = 0; i < expOutput.length; i++) {
+            sum += Math.pow(expOutput[i] - output[i], 2);
+        }
+
+        return sum / 2;
+    }
+
 }
+
+
+
+    
+
