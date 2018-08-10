@@ -23,8 +23,12 @@ public class PSAFinalProject {
     /**
      * @param args the command line arguments
      */
+    
+    
+    
     public static void main(String[] args) {
         // TODO code application logic here
+        DB4OUtil dB4OUtil = DB4OUtil.getInstance();
         CSVReader fileReader = new CSVReader();
         
         InputData inputData = new InputData();
@@ -39,6 +43,8 @@ public class PSAFinalProject {
         System.out.println("Training neural network....");
         networkTrainer.training(inputData.getInputs(),inputData.getOutput());
         System.out.println("Network trained");
+        
+        dB4OUtil.storeSystem(digitNetwork);
         
         System.out.println("Reading test data file");
         InputData inputData2 = new InputData();

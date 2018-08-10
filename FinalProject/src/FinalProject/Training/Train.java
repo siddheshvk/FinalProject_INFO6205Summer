@@ -15,12 +15,12 @@ import FinalProject.BaseClasses.NeuralNetwork;
 public class Train {
     
     private NeuralNetwork neuralNetwork;
-    private BackPropogation backProp;
+    private BackPropagation backProp;
 
     public Train(NeuralNetwork neuralNetwork) {
         this.neuralNetwork = neuralNetwork;
         
-        this.backProp = new BackPropogation(neuralNetwork);
+        this.backProp = new BackPropagation(neuralNetwork);
     }
     
     public void training(double[][] input, double [][] output){

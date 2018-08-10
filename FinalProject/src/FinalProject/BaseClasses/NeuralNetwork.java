@@ -78,7 +78,8 @@ public class NeuralNetwork implements Serializable {
 
                 else {
                     double[] weights = neuron.getWeights();
-                    layerCopy.addNeuron(neuronCopy, weights);
+//                    layerCopy.addNeuron(neuronCopy, weights);
+                    layerCopy.addPerceptron(neuronCopy);
                 }
             }
 

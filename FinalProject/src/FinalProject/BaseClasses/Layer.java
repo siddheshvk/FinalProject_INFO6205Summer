@@ -89,25 +89,25 @@ public class Layer{
             
             
 	    
-	    public void addNeuron(Perceptron percep, double[] weights) {
-
-	        perceptrons.add(percep);
-
-	        if(previousLayer != null) {
-
-	            if(previousLayer.getPerceptrons().size() != weights.length) {
-	                throw new IllegalArgumentException("The number of weights supplied must be equal to the number of percep in the previous layer");
-	            }
-
-	            else {
-	                List<Perceptron> previousLayerNeurons = previousLayer.getPerceptrons();
-	                for(int i = 0; i < previousLayerNeurons.size(); i++) {
-	                    percep.addInput(new Synapse(previousLayerNeurons.get(i), weights[i]));
-	                }
-	            }
-
-	        }
-	    }
+//	    public void addNeuron(Perceptron percep, double[] weights) {
+//
+//	        perceptrons.add(percep);
+//
+//	        if(previousLayer != null) {
+//
+//	            if(previousLayer.getPerceptrons().size() != weights.length) {
+//	                throw new IllegalArgumentException("The number of weights supplied must be equal to the number of percep in the previous layer");
+//	            }
+//
+//	            else {
+//	                List<Perceptron> previousLayerNeurons = previousLayer.getPerceptrons();
+//	                for(int i = 0; i < previousLayerNeurons.size(); i++) {
+//	                    percep.addInput(new Synapse(previousLayerNeurons.get(i), weights[i]));
+//	                }
+//	            }
+//
+//	        }
+//	    }
 	    
 	    public void feedForward() {
 
