@@ -108,8 +108,5 @@ public class Perceptron {
     public void setError(double error) {
         this.error = error;
     }
-    
-    
-    
-    
+  
 }
