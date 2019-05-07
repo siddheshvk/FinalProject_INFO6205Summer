@@ -10,6 +10,4 @@ The most important advantage of neural networks is that it can actually learn fr
 
 
 
-The details of the project are furhter explained in the pdf file below :
-
-[Project Report](https://github.com/siddheshvk/FinalProject_INFO6205Summer/blob/master/Neural%20Networks.pdf)
+The details of the project are furhter explained in the pdf file [Project Report](https://github.com/siddheshvk/FinalProject_INFO6205Summer/blob/master/Neural%20Networks.pdf)
