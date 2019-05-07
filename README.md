@@ -1,7 +1,8 @@
 # Neural Network
 
 ## Description
-Neural network based on Object Orientend Principals JAVA. Developed as a final project for the Program Structures and Algorithms course(Summer 2018). 
+Neural network developed in JAVA based on Object Oriented Principles. 
+Developed as a final project for the Program Structures and Algorithms course(Summer 2018). 
 The Neural network developed was trained and tested on the hand written digits database(MNIST database) and was henced used to detect the digits. The object state and all the neural network paramters that are calculated during training of model are saved using DB4O utility. The state is revived back when the application loads.
 
 ## Introduction
